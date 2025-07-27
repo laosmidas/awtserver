@@ -52,3 +52,23 @@ docker compose up -d
 After launching, adjust the Transmission settings by referring to this visual guide:
 
 📸 [Transmission Settings Guide](https://github.com/laosmidas/deb-omv-dots/tree/main/docker_compose_examples/privacy/transmission_settings)
+
+---
+
+## 🌍 6. Access Web Interfaces
+
+- 📦 **Transmission**  
+  Visit:  
+  ```http
+  http://localhost:9091
+  ```
+
+- 🔐 **Mullvad Browser (via noVNC)**  
+  Visit:  
+  ```https
+  https://localhost:6901
+  ```
+
+> Replace `localhost` with your server's IP if accessing remotely.
+
+---
