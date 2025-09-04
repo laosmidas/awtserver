@@ -1,3 +1,10 @@
+## ⚙️ Configure `docker-compose.yml` for Tailscale certs
+
+This service expects TLS certs to be mounted into the container. Use an **absolute path** on your host. Details and folder layout:  
+[deb-omv-dots/docker/tailscale-certs](https://github.com/laosmidas/deb-omv-dots/tree/main/docker/tailscale-certs)
+
+## 🚀 How to use
+
 this program monitors dockerhub registry and alerts you via email.
 
 to list all containers diun can see (all of them) then run this command

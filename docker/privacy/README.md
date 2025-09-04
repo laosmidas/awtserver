@@ -18,6 +18,9 @@ Edit your `docker-compose.yml` file based on the AirVPN example (recommended for
 
 📄 [docker-compose_example_airvpn.yml](https://github.com/laosmidas/deb-omv-dots/blob/main/docker_compose_examples/privacy/docker-compose_example_airvpn.yml)
 
+This service expects TLS certs to be mounted into the container. Use an **absolute path** on your host. Details and folder layout:  
+[deb-omv-dots/docker/tailscale-certs](https://github.com/laosmidas/deb-omv-dots/tree/main/docker/tailscale-certs)
+
 ---
 
 ## 🚀 3. Launch the Docker Stack
