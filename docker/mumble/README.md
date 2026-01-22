@@ -1,0 +1,10 @@
+## How to access
+Your tailscale magicDNS address
+
+example:
+https://MACHINE.MagicDNS-example.ts.net:64738
+
+## ⚙️ Configure `compose.yml` for Tailscale certs
+
+This service expects TLS certs to be mounted into the container. Use an **absolute path** on your host. Details and folder layout:  
+[deb-omv-dots/docker/tailscale-certs](https://github.com/laosmidas/deb-omv-dots/tree/main/docker/tailscale-certs)
