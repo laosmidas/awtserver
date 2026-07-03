@@ -1,0 +1,68 @@
+name: ${COMPOSE_PROJECT_NAME:-owncast}
+
+services:
+  tailscale:
+    image: ${TAILSCALE_IMAGE:-tailscale/tailscale:latest}
+    container_name: ${TAILSCALE_CONTAINER_NAME:-owncast-tailscale}
+    hostname: ${TS_HOSTNAME:-owncast}
+    restart: unless-stopped
+
+    environment:
+      TZ: ${TZ:-America/New_York}
+
+      TS_AUTHKEY: ${TS_AUTHKEY:-}
+      TS_AUTH_ONCE: "true"
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_SERVE_CONFIG: /config/serve.json
+      TS_USERSPACE: "false"
+
+      TS_ENABLE_HEALTH_CHECK: "true"
+      TS_LOCAL_ADDR_PORT: 127.0.0.1:41234
+
+      TS_EXTRA_ARGS: ${TS_EXTRA_ARGS:-}
+
+    volumes:
+      - ${TS_STATE_PATH:-./ts/state}:/var/lib/tailscale
+      - ${TS_CONFIG_PATH:-./ts/config}:/config:ro
+
+    devices:
+      - /dev/net/tun:/dev/net/tun
+
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+
+    ports:
+      - "${OWNCAST_LAN_WEB_PORT:-1930}:8080/tcp"
+      - "${OWNCAST_LAN_RTMP_PORT:-1935}:1935/tcp"
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q --spider http://127.0.0.1:41234/healthz || exit 1"
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  owncast:
+    image: ${OWNCAST_IMAGE:-ich777/owncast:latest}
+    container_name: ${OWNCAST_CONTAINER_NAME:-owncast}
+    restart: unless-stopped
+
+    network_mode: service:tailscale
+
+    depends_on:
+      tailscale:
+        condition: service_healthy
+
+    environment:
+      TZ: ${TZ:-America/New_York}
+
+    volumes:
+      - ${OWNCAST_DATA_PATH:-./data}:/owncast/data
+
+    devices:
+      - /dev/dri:/dev/dri
